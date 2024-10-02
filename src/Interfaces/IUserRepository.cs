@@ -9,8 +9,12 @@ namespace api.src.Interfaces
 {
     public interface IUserRepository
     {
-        Task<bool> ExistsByRut(string Rut);
+        Task<bool> ExistsByRut(string rut);
 
          Task<CreateUserDto> AddUser(User user);
+
+         Task<List<User>> GetUser(string genero);
+
+         Task<User?> Put(int id, UpdateUserDto userDto);
     }
 }

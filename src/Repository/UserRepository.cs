@@ -18,9 +18,9 @@ namespace api.src.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<bool> ExistsByRut(string Rut)
+        public async Task<bool> ExistsByRut(string rut)
         {
-            return await _dataContext.Users.AnyAsync(x => x.Rut == Rut);
+            return await _dataContext.Users.AnyAsync(x => x.Rut == rut);
         }
 
         public async Task<CreateUserDto> AddUser(User user)
@@ -36,6 +36,35 @@ namespace api.src.Repository
                 Fecha_nacimiento = user.Fecha_nacimiento
             };
         }
+
+        public async Task<List<User>> GetUser(string genero)
+        {
+            if (string.IsNullOrEmpty(genero))
+            {
+                return await _dataContext.Users.ToListAsync();
+            }
+
+            return await _dataContext.Users.Where(p => p.Genero == genero).ToListAsync();
+        }
+
+        public async Task<User?> Put(int id, UpdateUserDto userDto)
+        {
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            
+            user.Rut = userDto.Rut;
+            user.Nombre = userDto.Nombre;
+            user.Email = userDto.Email;
+            user.Genero = userDto.Genero;
+            user.Fecha_nacimiento = userDto.Fecha_nacimiento;
+
+            await _dataContext.SaveChangesAsync();
+            return user;
+        }
+
 
 
     }
