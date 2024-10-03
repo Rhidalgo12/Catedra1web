@@ -66,6 +66,17 @@ namespace api.src.Controller
                 }
                 return Ok(userModel);
             }
+
+             [HttpDelete("{id:int}")]
+            public async Task<IActionResult> Delete( int id)
+            {
+                var user = await _userRepository.Delete(id);
+                if(user == null)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
          
     }
 }

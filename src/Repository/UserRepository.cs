@@ -65,6 +65,19 @@ namespace api.src.Repository
             return user;
         }
 
+        public async Task<User?> Delete(int id)
+        {
+            var userModel = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if(userModel == null)
+            {
+                return null;
+            }
+
+            _dataContext.Users.Remove(userModel);
+            await _dataContext.SaveChangesAsync();
+            return userModel;
+        }
+
 
 
     }

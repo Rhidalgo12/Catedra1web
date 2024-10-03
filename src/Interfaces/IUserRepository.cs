@@ -16,5 +16,7 @@ namespace api.src.Interfaces
          Task<List<User>> GetUser(string genero);
 
          Task<User?> Put(int id, UpdateUserDto userDto);
+
+          Task<User?> Delete(int id); 
     }
 }
