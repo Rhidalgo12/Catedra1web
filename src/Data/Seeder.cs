@@ -24,7 +24,7 @@ namespace api.src.Data
                     Nombre = $"User {i}",
                     Email = $"user{i}@example.com", 
                     Genero = generos[random.Next(generos.Length)], 
-                    Fecha_nacimiento = DateTime.Now.AddYears(-random.Next(18, 50)).AddDays(-random.Next(0, 365)) 
+                    Fecha_nacimiento = DateOnly.FromDateTime(DateTime.Now.AddYears(-random.Next(18, 60)))
                 };
 
                 await context.Users.AddAsync(user);

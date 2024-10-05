@@ -37,22 +37,42 @@ namespace api.src.Repository
             };
         }
 
-        public async Task<List<User>> GetUser(string genero)
+        public async Task<List<UserDto>> GetUser(string genero, string sort)
         {
-            if (string.IsNullOrEmpty(genero))
+            var query = _dataContext.Users.AsQueryable();
+            if (!string.IsNullOrEmpty(genero))
             {
-                return await _dataContext.Users.ToListAsync();
+                query = query.Where(u => u.Genero == genero);
             }
+            
 
-            return await _dataContext.Users.Where(p => p.Genero == genero).ToListAsync();
+            if (sort == "asc")
+            {
+                query = query.OrderBy(u => u.Nombre); 
+            }
+            else if (sort == "desc")
+            {
+                query = query.OrderByDescending(u => u.Nombre);
+            }
+            return await query.Select(u => new UserDto
+            {
+                Rut = u.Rut,
+                Nombre = u.Nombre,
+                Email = u.Email,
+                Genero = u.Genero,
+                Fecha_nacimiento = u.Fecha_nacimiento
+            }).ToListAsync();
+            
+
         }
+
 
         public async Task<User?> Put(int id, UpdateUserDto userDto)
         {
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
             {
-                throw new Exception("User not found");
+                return null;
             }
             
             user.Rut = userDto.Rut;

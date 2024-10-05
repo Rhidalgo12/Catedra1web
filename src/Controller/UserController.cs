@@ -25,35 +25,58 @@ namespace api.src.Controller
         [HttpPost("")]
              public async Task<IResult> CreateUser(User createUserDto)
             {
+            if (createUserDto.Fecha_nacimiento >= DateOnly.FromDateTime(DateTime.Today))
+            {
+                return TypedResults.BadRequest("La fecha de nacimiento debe ser menor a la fecha actual.");
+            }
             bool exists = await _userRepository.ExistsByRut(createUserDto.Rut);
 
             if (exists)
             {
-                return TypedResults.Conflict("User already exists");
+                return TypedResults.Conflict("Rut already exists");
             }
             else
             {
                 var userAdded = await _userRepository.AddUser(createUserDto);
-                return TypedResults.Ok(userAdded);
+                var uri = $"/user/{userAdded.Rut}";
+                return TypedResults.Created(uri, userAdded);
             }
             }
 
          [HttpGet]
-            public async Task<IResult> GetUser(string? genero)
+            public async Task<IResult> GetUser(string? genero, string? sort)
             {
-                var users = await _userRepository.GetUser(genero);
+                if (sort != null && sort != "asc" && sort != "desc")
+                {
+                    return TypedResults.BadRequest("Valor de sort inválido");
+                }
 
-            if (users == null)
-            {
-                return TypedResults.BadRequest("No se encontraron Usuarios");
+                if (genero != null && 
+                    genero != "Masculino" && 
+                    genero != "Femenino" && 
+                    genero != "Otro" && 
+                    genero != "Prefiero no decirlo")
+                {
+                    return TypedResults.BadRequest("Valor de genero inválido");
+                }
+                var users = await _userRepository.GetUser(genero, sort);
+
+                if (users == null)
+                {
+                    return TypedResults.BadRequest("No se encontraron Usuarios");
+                }
+
+                return TypedResults.Ok(users);
             }
-
-            return TypedResults.Ok(users);
-            }
-
+            
             [HttpPut ("{id}")]
             public async Task <IActionResult> Put(int id,UpdateUserDto updateDto)
             {
+                 if (updateDto.Fecha_nacimiento >= DateOnly.FromDateTime(DateTime.Today))
+                {
+                return BadRequest("La fecha de nacimiento debe ser menor a la fecha actual.");
+                }
+                
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -62,7 +85,7 @@ namespace api.src.Controller
                 var userModel = await _userRepository.Put(id, updateDto);
                 if(userModel == null)
                 {
-                    return NotFound();
+                    return NotFound("User Not Found");
                 }
                 return Ok(userModel);
             }
@@ -73,9 +96,9 @@ namespace api.src.Controller
                 var user = await _userRepository.Delete(id);
                 if(user == null)
                 {
-                    return NotFound();
+                    return NotFound("User Not Found");
                 }
-                return NoContent();
+                return Ok("User Deleted");
             }
          
     }

@@ -8,17 +8,23 @@ namespace api.src.Dtos
 {
     public class UpdateUserDto
     {
+        [Required(ErrorMessage = "El RUT es obligatorio")]
         public required string Rut { get; set; }
 
-        [StringLength(100, MinimumLength =3)]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 100 caracteres")]
         public required string Nombre { get; set; }
 
-         [EmailAddress]
+        [Required(ErrorMessage = "El correo electrónico es obligatorio")]
+        [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido")]
         public required string Email { get; set; }
 
-         [RegularExpression(@"Masculino|Femenino|Otro|Prefiero no decirlo")]
+        [Required(ErrorMessage = "El género es obligatorio")]
+        [RegularExpression(@"^(Masculino|Femenino|Otro|Prefiero no decirlo)$", 
+            ErrorMessage = "El género debe ser 'Masculino', 'Femenino', 'Otro' o 'Prefiero no decirlo'")]
         public required string Genero { get; set; }
 
-        public DateTime Fecha_nacimiento { get; set; }
+       
+        public DateOnly Fecha_nacimiento { get; set; }
     }
 }

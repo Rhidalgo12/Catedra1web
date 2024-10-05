@@ -4,13 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.src.Models
+namespace api.src.Dtos
 {
-   public class User
+    public class UserDto
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "El RUT es obligatorio")]
         public required string Rut { get; set; }
 
@@ -27,7 +24,7 @@ namespace api.src.Models
             ErrorMessage = "El género debe ser 'Masculino', 'Femenino', 'Otro' o 'Prefiero no decirlo'")]
         public required string Genero { get; set; }
 
-        
+       
         public DateOnly Fecha_nacimiento { get; set; }
     }
 }

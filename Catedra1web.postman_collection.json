@@ -10,7 +10,29 @@
 			"name": "Get User",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5002/api/user?genero=Masculino&sort=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "genero",
+							"value": "Masculino"
+						},
+						{
+							"key": "sort",
+							"value": "asc"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -21,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rut\": \"12122222-4\",\r\n    \"nombre\":\"Raul\",\r\n    \"email\": \"raul@ucn.cl\",\r\n    \"genero\":\"Masculino\",\r\n    \"fecha_nacimiento\": \"2003-12-09\"\r\n\r\n}",
+					"raw": "{\r\n    \"rut\": \"21230587-1\",\r\n    \"nombre\": \"Carlos\",\r\n    \"email\": \"Carlos@example.com\",\r\n    \"genero\": \"Masculino\",\r\n    \"fecha_nacimiento\": \"2004-10-04\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,7 +72,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rut\": \"12122222-4\",\r\n    \"nombre\":\"Raul\",\r\n    \"email\": \"raul@ucn.cl\",\r\n    \"genero\":\"Masculino\",\r\n    \"fecha_nacimiento\": \"2003-12-09\"\r\n\r\n}",
+					"raw": "{\r\n    \"rut\": \"21210587-1\",\r\n    \"nombre\": \"Raul2\",\r\n    \"email\": \"Raul@example.com\",\r\n    \"genero\": \"Masculino\",\r\n    \"fecha_nacimiento\": \"2005-10-04\"\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -58,7 +80,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5002/api/user/14",
+					"raw": "http://localhost:5002/api/user/15",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -67,7 +89,7 @@
 					"path": [
 						"api",
 						"user",
-						"14"
+						"15"
 					]
 				}
 			},
@@ -79,7 +101,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5002/api/user/",
+					"raw": "http://localhost:5002/api/user/16",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -88,7 +110,7 @@
 					"path": [
 						"api",
 						"user",
-						""
+						"16"
 					]
 				}
 			},

@@ -13,7 +13,7 @@ namespace api.src.Interfaces
 
          Task<CreateUserDto> AddUser(User user);
 
-         Task<List<User>> GetUser(string genero);
+         Task<List<UserDto>> GetUser(string genero, string sort);
 
          Task<User?> Put(int id, UpdateUserDto userDto);
 
